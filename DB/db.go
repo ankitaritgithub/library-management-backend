@@ -2,6 +2,8 @@ package db
 
 import (
 	"go-auth/database"
+	"os"
+	"path/filepath"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -11,9 +13,10 @@ var DB *gorm.DB
 
 func InitDB() *gorm.DB {
 	var err error
-	DB, err := gorm.Open(sqlite.Open("Library.db"), &gorm.Config{})
+	dbPath := getDBPath()
+	DB, err := gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
 	if err != nil {
-		panic("failed to connect database")
+		panic("failed to connect database: " + err.Error())
 	}
 
 	// AutoMigrate the provided structs
@@ -23,4 +26,17 @@ func InitDB() *gorm.DB {
 	DB.AutoMigrate(&database.Book{})
 	DB.AutoMigrate(&database.LibraryAdmin{})
 	return DB
+}
+
+func getDBPath() string {
+	// Check for environment variable first
+	if dbPath := os.Getenv("DATABASE_PATH"); dbPath != "" {
+		// Ensure directory exists
+		dir := filepath.Dir(dbPath)
+		os.MkdirAll(dir, 0755)
+		return dbPath
+	}
+
+	// Default to Library.db in current directory
+	return "Library.db"
 }
