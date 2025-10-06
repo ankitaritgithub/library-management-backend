@@ -199,10 +199,6 @@ go test ./...
 4. Push to the branch
 5. Create a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## 🆘 Support
 
-For support, email [support@example.com](mailto:support@example.com) or create an issue in the repository.
+For support, email [ankita.s2805@gmail.com](mailto:ankita.s2805@gmail.com) or create an issue in the repository.
